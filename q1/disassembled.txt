@@ -1,0 +1,272 @@
+
+program:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+0000000000001000 <.init>:
+    1000:	f3 0f 1e fa          	endbr64 
+    1004:	48 83 ec 08          	sub    $0x8,%rsp
+    1008:	48 8b 05 d9 2f 00 00 	mov    0x2fd9(%rip),%rax        # 3fe8 <malloc@plt+0x2f38>
+    100f:	48 85 c0             	test   %rax,%rax
+    1012:	74 02                	je     1016 <__cxa_finalize@plt-0x5a>
+    1014:	ff d0                	callq  *%rax
+    1016:	48 83 c4 08          	add    $0x8,%rsp
+    101a:	c3                   	retq   
+
+Disassembly of section .plt:
+
+0000000000001020 <.plt>:
+    1020:	ff 35 82 2f 00 00    	pushq  0x2f82(%rip)        # 3fa8 <malloc@plt+0x2ef8>
+    1026:	f2 ff 25 83 2f 00 00 	bnd jmpq *0x2f83(%rip)        # 3fb0 <malloc@plt+0x2f00>
+    102d:	0f 1f 00             	nopl   (%rax)
+    1030:	f3 0f 1e fa          	endbr64 
+    1034:	68 00 00 00 00       	pushq  $0x0
+    1039:	f2 e9 e1 ff ff ff    	bnd jmpq 1020 <__cxa_finalize@plt-0x50>
+    103f:	90                   	nop
+    1040:	f3 0f 1e fa          	endbr64 
+    1044:	68 01 00 00 00       	pushq  $0x1
+    1049:	f2 e9 d1 ff ff ff    	bnd jmpq 1020 <__cxa_finalize@plt-0x50>
+    104f:	90                   	nop
+    1050:	f3 0f 1e fa          	endbr64 
+    1054:	68 02 00 00 00       	pushq  $0x2
+    1059:	f2 e9 c1 ff ff ff    	bnd jmpq 1020 <__cxa_finalize@plt-0x50>
+    105f:	90                   	nop
+    1060:	f3 0f 1e fa          	endbr64 
+    1064:	68 03 00 00 00       	pushq  $0x3
+    1069:	f2 e9 b1 ff ff ff    	bnd jmpq 1020 <__cxa_finalize@plt-0x50>
+    106f:	90                   	nop
+
+Disassembly of section .plt.got:
+
+0000000000001070 <__cxa_finalize@plt>:
+    1070:	f3 0f 1e fa          	endbr64 
+    1074:	f2 ff 25 7d 2f 00 00 	bnd jmpq *0x2f7d(%rip)        # 3ff8 <malloc@plt+0x2f48>
+    107b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+Disassembly of section .plt.sec:
+
+0000000000001080 <free@plt>:
+    1080:	f3 0f 1e fa          	endbr64 
+    1084:	f2 ff 25 2d 2f 00 00 	bnd jmpq *0x2f2d(%rip)        # 3fb8 <malloc@plt+0x2f08>
+    108b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000001090 <strncpy@plt>:
+    1090:	f3 0f 1e fa          	endbr64 
+    1094:	f2 ff 25 25 2f 00 00 	bnd jmpq *0x2f25(%rip)        # 3fc0 <malloc@plt+0x2f10>
+    109b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+00000000000010a0 <printf@plt>:
+    10a0:	f3 0f 1e fa          	endbr64 
+    10a4:	f2 ff 25 1d 2f 00 00 	bnd jmpq *0x2f1d(%rip)        # 3fc8 <malloc@plt+0x2f18>
+    10ab:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+00000000000010b0 <malloc@plt>:
+    10b0:	f3 0f 1e fa          	endbr64 
+    10b4:	f2 ff 25 15 2f 00 00 	bnd jmpq *0x2f15(%rip)        # 3fd0 <malloc@plt+0x2f20>
+    10bb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+Disassembly of section .text:
+
+00000000000010c0 <.text>:
+    10c0:	f3 0f 1e fa          	endbr64 
+    10c4:	31 ed                	xor    %ebp,%ebp
+    10c6:	49 89 d1             	mov    %rdx,%r9
+    10c9:	5e                   	pop    %rsi
+    10ca:	48 89 e2             	mov    %rsp,%rdx
+    10cd:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+    10d1:	50                   	push   %rax
+    10d2:	54                   	push   %rsp
+    10d3:	4c 8d 05 86 02 00 00 	lea    0x286(%rip),%r8        # 1360 <malloc@plt+0x2b0>
+    10da:	48 8d 0d 0f 02 00 00 	lea    0x20f(%rip),%rcx        # 12f0 <malloc@plt+0x240>
+    10e1:	48 8d 3d ab 01 00 00 	lea    0x1ab(%rip),%rdi        # 1293 <malloc@plt+0x1e3>
+    10e8:	ff 15 f2 2e 00 00    	callq  *0x2ef2(%rip)        # 3fe0 <malloc@plt+0x2f30>
+    10ee:	f4                   	hlt    
+    10ef:	90                   	nop
+    10f0:	48 8d 3d 19 2f 00 00 	lea    0x2f19(%rip),%rdi        # 4010 <malloc@plt+0x2f60>
+    10f7:	48 8d 05 12 2f 00 00 	lea    0x2f12(%rip),%rax        # 4010 <malloc@plt+0x2f60>
+    10fe:	48 39 f8             	cmp    %rdi,%rax
+    1101:	74 15                	je     1118 <malloc@plt+0x68>
+    1103:	48 8b 05 ce 2e 00 00 	mov    0x2ece(%rip),%rax        # 3fd8 <malloc@plt+0x2f28>
+    110a:	48 85 c0             	test   %rax,%rax
+    110d:	74 09                	je     1118 <malloc@plt+0x68>
+    110f:	ff e0                	jmpq   *%rax
+    1111:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1118:	c3                   	retq   
+    1119:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1120:	48 8d 3d e9 2e 00 00 	lea    0x2ee9(%rip),%rdi        # 4010 <malloc@plt+0x2f60>
+    1127:	48 8d 35 e2 2e 00 00 	lea    0x2ee2(%rip),%rsi        # 4010 <malloc@plt+0x2f60>
+    112e:	48 29 fe             	sub    %rdi,%rsi
+    1131:	48 89 f0             	mov    %rsi,%rax
+    1134:	48 c1 ee 3f          	shr    $0x3f,%rsi
+    1138:	48 c1 f8 03          	sar    $0x3,%rax
+    113c:	48 01 c6             	add    %rax,%rsi
+    113f:	48 d1 fe             	sar    %rsi
+    1142:	74 14                	je     1158 <malloc@plt+0xa8>
+    1144:	48 8b 05 a5 2e 00 00 	mov    0x2ea5(%rip),%rax        # 3ff0 <malloc@plt+0x2f40>
+    114b:	48 85 c0             	test   %rax,%rax
+    114e:	74 08                	je     1158 <malloc@plt+0xa8>
+    1150:	ff e0                	jmpq   *%rax
+    1152:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+    1158:	c3                   	retq   
+    1159:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1160:	f3 0f 1e fa          	endbr64 
+    1164:	80 3d a5 2e 00 00 00 	cmpb   $0x0,0x2ea5(%rip)        # 4010 <malloc@plt+0x2f60>
+    116b:	75 2b                	jne    1198 <malloc@plt+0xe8>
+    116d:	55                   	push   %rbp
+    116e:	48 83 3d 82 2e 00 00 	cmpq   $0x0,0x2e82(%rip)        # 3ff8 <malloc@plt+0x2f48>
+    1175:	00 
+    1176:	48 89 e5             	mov    %rsp,%rbp
+    1179:	74 0c                	je     1187 <malloc@plt+0xd7>
+    117b:	48 8b 3d 86 2e 00 00 	mov    0x2e86(%rip),%rdi        # 4008 <malloc@plt+0x2f58>
+    1182:	e8 e9 fe ff ff       	callq  1070 <__cxa_finalize@plt>
+    1187:	e8 64 ff ff ff       	callq  10f0 <malloc@plt+0x40>
+    118c:	c6 05 7d 2e 00 00 01 	movb   $0x1,0x2e7d(%rip)        # 4010 <malloc@plt+0x2f60>
+    1193:	5d                   	pop    %rbp
+    1194:	c3                   	retq   
+    1195:	0f 1f 00             	nopl   (%rax)
+    1198:	c3                   	retq   
+    1199:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    11a0:	f3 0f 1e fa          	endbr64 
+    11a4:	e9 77 ff ff ff       	jmpq   1120 <malloc@plt+0x70>
+    11a9:	f3 0f 1e fa          	endbr64 
+    11ad:	55                   	push   %rbp
+    11ae:	48 89 e5             	mov    %rsp,%rbp
+    11b1:	48 83 ec 20          	sub    $0x20,%rsp
+    11b5:	89 7d ec             	mov    %edi,-0x14(%rbp)
+    11b8:	8b 45 ec             	mov    -0x14(%rbp),%eax
+    11bb:	48 98                	cltq   
+    11bd:	48 89 c7             	mov    %rax,%rdi
+    11c0:	e8 eb fe ff ff       	callq  10b0 <malloc@plt>
+    11c5:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+    11c9:	48 83 7d f8 00       	cmpq   $0x0,-0x8(%rbp)
+    11ce:	74 2c                	je     11fc <malloc@plt+0x14c>
+    11d0:	8b 45 ec             	mov    -0x14(%rbp),%eax
+    11d3:	48 63 d0             	movslq %eax,%rdx
+    11d6:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    11da:	48 8d 35 27 0e 00 00 	lea    0xe27(%rip),%rsi        # 2008 <malloc@plt+0xf58>
+    11e1:	48 89 c7             	mov    %rax,%rdi
+    11e4:	e8 a7 fe ff ff       	callq  1090 <strncpy@plt>
+    11e9:	8b 45 ec             	mov    -0x14(%rbp),%eax
+    11ec:	48 98                	cltq   
+    11ee:	48 8d 50 ff          	lea    -0x1(%rax),%rdx
+    11f2:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    11f6:	48 01 d0             	add    %rdx,%rax
+    11f9:	c6 00 00             	movb   $0x0,(%rax)
+    11fc:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1200:	c9                   	leaveq 
+    1201:	c3                   	retq   
+    1202:	f3 0f 1e fa          	endbr64 
+    1206:	55                   	push   %rbp
+    1207:	48 89 e5             	mov    %rsp,%rbp
+    120a:	48 89 7d e8          	mov    %rdi,-0x18(%rbp)
+    120e:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+    1215:	eb 13                	jmp    122a <malloc@plt+0x17a>
+    1217:	8b 05 f7 2d 00 00    	mov    0x2df7(%rip),%eax        # 4014 <malloc@plt+0x2f64>
+    121d:	83 c0 01             	add    $0x1,%eax
+    1220:	89 05 ee 2d 00 00    	mov    %eax,0x2dee(%rip)        # 4014 <malloc@plt+0x2f64>
+    1226:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+    122a:	8b 45 fc             	mov    -0x4(%rbp),%eax
+    122d:	48 63 d0             	movslq %eax,%rdx
+    1230:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1234:	48 01 d0             	add    %rdx,%rax
+    1237:	0f b6 00             	movzbl (%rax),%eax
+    123a:	84 c0                	test   %al,%al
+    123c:	75 d9                	jne    1217 <malloc@plt+0x167>
+    123e:	90                   	nop
+    123f:	90                   	nop
+    1240:	5d                   	pop    %rbp
+    1241:	c3                   	retq   
+    1242:	f3 0f 1e fa          	endbr64 
+    1246:	55                   	push   %rbp
+    1247:	48 89 e5             	mov    %rsp,%rbp
+    124a:	48 83 ec 10          	sub    $0x10,%rsp
+    124e:	89 7d fc             	mov    %edi,-0x4(%rbp)
+    1251:	8b 05 bd 2d 00 00    	mov    0x2dbd(%rip),%eax        # 4014 <malloc@plt+0x2f64>
+    1257:	39 45 fc             	cmp    %eax,-0x4(%rbp)
+    125a:	7d 1b                	jge    1277 <malloc@plt+0x1c7>
+    125c:	8b 05 b2 2d 00 00    	mov    0x2db2(%rip),%eax        # 4014 <malloc@plt+0x2f64>
+    1262:	89 c6                	mov    %eax,%esi
+    1264:	48 8d 3d b5 0d 00 00 	lea    0xdb5(%rip),%rdi        # 2020 <malloc@plt+0xf70>
+    126b:	b8 00 00 00 00       	mov    $0x0,%eax
+    1270:	e8 2b fe ff ff       	callq  10a0 <printf@plt>
+    1275:	eb 19                	jmp    1290 <malloc@plt+0x1e0>
+    1277:	8b 05 97 2d 00 00    	mov    0x2d97(%rip),%eax        # 4014 <malloc@plt+0x2f64>
+    127d:	89 c6                	mov    %eax,%esi
+    127f:	48 8d 3d c2 0d 00 00 	lea    0xdc2(%rip),%rdi        # 2048 <malloc@plt+0xf98>
+    1286:	b8 00 00 00 00       	mov    $0x0,%eax
+    128b:	e8 10 fe ff ff       	callq  10a0 <printf@plt>
+    1290:	90                   	nop
+    1291:	c9                   	leaveq 
+    1292:	c3                   	retq   
+    1293:	f3 0f 1e fa          	endbr64 
+    1297:	55                   	push   %rbp
+    1298:	48 89 e5             	mov    %rsp,%rbp
+    129b:	48 83 ec 10          	sub    $0x10,%rsp
+    129f:	c7 45 f4 20 00 00 00 	movl   $0x20,-0xc(%rbp)
+    12a6:	8b 45 f4             	mov    -0xc(%rbp),%eax
+    12a9:	89 c7                	mov    %eax,%edi
+    12ab:	e8 f9 fe ff ff       	callq  11a9 <malloc@plt+0xf9>
+    12b0:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+    12b4:	48 83 7d f8 00       	cmpq   $0x0,-0x8(%rbp)
+    12b9:	74 22                	je     12dd <malloc@plt+0x22d>
+    12bb:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    12bf:	48 89 c7             	mov    %rax,%rdi
+    12c2:	e8 3b ff ff ff       	callq  1202 <malloc@plt+0x152>
+    12c7:	bf 0a 00 00 00       	mov    $0xa,%edi
+    12cc:	e8 71 ff ff ff       	callq  1242 <malloc@plt+0x192>
+    12d1:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    12d5:	48 89 c7             	mov    %rax,%rdi
+    12d8:	e8 a3 fd ff ff       	callq  1080 <free@plt>
+    12dd:	b8 00 00 00 00       	mov    $0x0,%eax
+    12e2:	c9                   	leaveq 
+    12e3:	c3                   	retq   
+    12e4:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+    12eb:	00 00 00 
+    12ee:	66 90                	xchg   %ax,%ax
+    12f0:	f3 0f 1e fa          	endbr64 
+    12f4:	41 57                	push   %r15
+    12f6:	4c 8d 3d a3 2a 00 00 	lea    0x2aa3(%rip),%r15        # 3da0 <malloc@plt+0x2cf0>
+    12fd:	41 56                	push   %r14
+    12ff:	49 89 d6             	mov    %rdx,%r14
+    1302:	41 55                	push   %r13
+    1304:	49 89 f5             	mov    %rsi,%r13
+    1307:	41 54                	push   %r12
+    1309:	41 89 fc             	mov    %edi,%r12d
+    130c:	55                   	push   %rbp
+    130d:	48 8d 2d 94 2a 00 00 	lea    0x2a94(%rip),%rbp        # 3da8 <malloc@plt+0x2cf8>
+    1314:	53                   	push   %rbx
+    1315:	4c 29 fd             	sub    %r15,%rbp
+    1318:	48 83 ec 08          	sub    $0x8,%rsp
+    131c:	e8 df fc ff ff       	callq  1000 <__cxa_finalize@plt-0x70>
+    1321:	48 c1 fd 03          	sar    $0x3,%rbp
+    1325:	74 1f                	je     1346 <malloc@plt+0x296>
+    1327:	31 db                	xor    %ebx,%ebx
+    1329:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    1330:	4c 89 f2             	mov    %r14,%rdx
+    1333:	4c 89 ee             	mov    %r13,%rsi
+    1336:	44 89 e7             	mov    %r12d,%edi
+    1339:	41 ff 14 df          	callq  *(%r15,%rbx,8)
+    133d:	48 83 c3 01          	add    $0x1,%rbx
+    1341:	48 39 dd             	cmp    %rbx,%rbp
+    1344:	75 ea                	jne    1330 <malloc@plt+0x280>
+    1346:	48 83 c4 08          	add    $0x8,%rsp
+    134a:	5b                   	pop    %rbx
+    134b:	5d                   	pop    %rbp
+    134c:	41 5c                	pop    %r12
+    134e:	41 5d                	pop    %r13
+    1350:	41 5e                	pop    %r14
+    1352:	41 5f                	pop    %r15
+    1354:	c3                   	retq   
+    1355:	66 66 2e 0f 1f 84 00 	data16 nopw %cs:0x0(%rax,%rax,1)
+    135c:	00 00 00 00 
+    1360:	f3 0f 1e fa          	endbr64 
+    1364:	c3                   	retq   
+
+Disassembly of section .fini:
+
+0000000000001368 <.fini>:
+    1368:	f3 0f 1e fa          	endbr64 
+    136c:	48 83 ec 08          	sub    $0x8,%rsp
+    1370:	48 83 c4 08          	add    $0x8,%rsp
+    1374:	c3                   	retq   
