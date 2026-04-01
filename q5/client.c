@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <sys/select.h> // Required for I/O multiplexing
 #include "protocol.h"
 
 int main() {
@@ -32,7 +33,12 @@ int main() {
     // --- Authentication Phase ---
     printf("Welcome to the Digital Library Platform\n");
     printf("Enter your Library ID to authenticate: ");
-    scanf("%49s", library_id);
+    
+    // Using fgets instead of scanf to prevent buffer overflow from keyboard
+    char input_buf[64];
+    if (fgets(input_buf, sizeof(input_buf), stdin) != NULL) {
+        sscanf(input_buf, "%49s", library_id);
+    }
 
     pkt.type = MSG_AUTH_REQ;
     strncpy(pkt.payload, library_id, BUFFER_SIZE);
@@ -61,7 +67,7 @@ int main() {
     // --- Main Session Loop ---
     int choice;
     while (1) {
-        // Request Book List
+        // 1. Request Book List
         pkt.type = MSG_BOOK_LIST_REQ;
         send(sock, &pkt, sizeof(Packet), 0);
         
@@ -73,28 +79,67 @@ int main() {
 
         printf("\n%s\n", response.payload);
         printf("Enter the Book ID you wish to reserve (or '0' to exit): ");
-        
-        if (scanf("%d", &choice) != 1) {
-            printf("Invalid input. Exiting.\n");
+        fflush(stdout); // Force the prompt to print before select() blocks
+
+        // --- ASYNCHRONOUS I/O SETUP ---
+        fd_set read_fds;
+        FD_ZERO(&read_fds);
+        FD_SET(STDIN_FILENO, &read_fds); // Monitor the keyboard
+        FD_SET(sock, &read_fds);         // Monitor the network socket
+
+        int max_sd = (sock > STDIN_FILENO) ? sock : STDIN_FILENO;
+
+        // select() pauses the program until EITHER the user types, OR the server sends a message
+        int activity = select(max_sd + 1, &read_fds, NULL, NULL, NULL);
+
+        if (activity < 0) {
+            printf("\nSelect error.\n");
             break;
         }
 
-        if (choice == 0) break;
-
-        // Request Reservation
-        pkt.type = MSG_RESERVE_REQ;
-        snprintf(pkt.payload, BUFFER_SIZE, "%d", choice);
-        send(sock, &pkt, sizeof(Packet), 0);
-        
-        if (recv(sock, &response, sizeof(Packet), 0) <= 0) break;
-        if (response.type == MSG_SERVER_SHUTDOWN) {
-            printf("\n!!! %s !!!\n", response.payload);
-            break;
+        // EVENT A: The server sent a message (Shutdown) or closed the connection (Timeout)
+        if (FD_ISSET(sock, &read_fds)) {
+            int valread = recv(sock, &response, sizeof(Packet), 0);
+            if (valread <= 0) {
+                printf("\n\n[Session Terminated: Server dropped the connection (Timeout)]\n");
+                break;
+            }
+            if (response.type == MSG_SERVER_SHUTDOWN) {
+                printf("\n\n!!! %s !!!\n", response.payload);
+                break;
+            }
         }
 
-        printf("\n>>> SERVER: %s <<<\n", response.payload);
-        printf("Press Enter to continue...");
-        getchar(); getchar(); // Clear buffer and wait
+        // EVENT B: The user typed something on the keyboard
+        if (FD_ISSET(STDIN_FILENO, &read_fds)) {
+            if (fgets(input_buf, sizeof(input_buf), stdin) != NULL) {
+                if (sscanf(input_buf, "%d", &choice) != 1) {
+                    printf("Invalid input. Try again.\n");
+                    continue;
+                }
+
+                if (choice == 0) break;
+
+                // Send Reservation Request
+                pkt.type = MSG_RESERVE_REQ;
+                snprintf(pkt.payload, BUFFER_SIZE, "%d", choice);
+                send(sock, &pkt, sizeof(Packet), 0);
+                
+                if (recv(sock, &response, sizeof(Packet), 0) <= 0) {
+                    printf("\nConnection lost during reservation.\n");
+                    break;
+                }
+                if (response.type == MSG_SERVER_SHUTDOWN) {
+                    printf("\n!!! %s !!!\n", response.payload);
+                    break;
+                }
+
+                printf("\n>>> SERVER: %s <<<\n", response.payload);
+                printf("Press Enter to continue...");
+                fflush(stdout);
+                fgets(input_buf, sizeof(input_buf), stdin); // Catch the Enter key
+            }
+        }
     }
 
     // --- Graceful Disconnect ---
