@@ -197,5 +197,6 @@ This system requires multiple terminal windows to demonstrate concurrency.
 * **Server Logs:** Real-time status updates showing connected sockets, authentication warnings, and book states.
 * **Client UI:** Dynamic menus updating based on server responses (e.g., `>>> SERVER: Already reserved by another user. <<<`).
 * **Timeout:** If a client remains idle for 20 seconds, the server will sever the connection, and the client terminal will drop safely back to bash.
+* **Shutdown Concurrency:** Utilizing asynchronous I/O multiplexing, the server's admin shutdown command concurrently broadcasts a termination message to all active clients (!!! Server is shutting down for maintenance. !!!), ensuring their sockets are safely closed and the client programs exit gracefully without hanging.
 
 ---
