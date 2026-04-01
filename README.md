@@ -2,7 +2,7 @@
 
 This repository contains a collection of systems programming projects demonstrating proficiency in C, x86-64 Assembly, POSIX multithreading, Linux socket programming, and Python C-API extensions.
 
-> **Note on Analysis Reports:** The comprehensive reverse engineering reports, static/dynamic ELF analysis, `gdb` traces, `strace` logs, and system architecture documentation for Question 1 are located in the accompanying **Analysis Report Document**, not in this README.
+> **Note on Analysis Reports & Demo video:** The comprehensive reverse engineering reports, static/dynamic ELF analysis, `gdb` traces, `strace` logs, and system architecture documentation as well as demo video for the questions are located in the accompanying **Analysis Report Document**, not in this README.
 
 ## Prerequisites
 To compile and execute these programs, ensure your Linux environment has the following installed:
