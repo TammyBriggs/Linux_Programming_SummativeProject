@@ -37,7 +37,18 @@ int main() {
     pkt.type = MSG_AUTH_REQ;
     strncpy(pkt.payload, library_id, BUFFER_SIZE);
     send(sock, &pkt, sizeof(Packet), 0);
-    recv(sock, &response, sizeof(Packet), 0);
+    
+    if (recv(sock, &response, sizeof(Packet), 0) <= 0) {
+        printf("\nConnection to server lost.\n");
+        close(sock);
+        return 0;
+    }
+
+    if (response.type == MSG_SERVER_SHUTDOWN) {
+        printf("\n!!! %s !!!\n", response.payload);
+        close(sock);
+        return 0;
+    }
 
     printf("\nServer Response: %s\n", response.payload);
 
@@ -53,10 +64,16 @@ int main() {
         // Request Book List
         pkt.type = MSG_BOOK_LIST_REQ;
         send(sock, &pkt, sizeof(Packet), 0);
-        recv(sock, &response, sizeof(Packet), 0);
-        printf("\n%s\n", response.payload);
+        
+        if (recv(sock, &response, sizeof(Packet), 0) <= 0) break;
+        if (response.type == MSG_SERVER_SHUTDOWN) {
+            printf("\n!!! %s !!!\n", response.payload);
+            break;
+        }
 
+        printf("\n%s\n", response.payload);
         printf("Enter the Book ID you wish to reserve (or '0' to exit): ");
+        
         if (scanf("%d", &choice) != 1) {
             printf("Invalid input. Exiting.\n");
             break;
@@ -68,7 +85,12 @@ int main() {
         pkt.type = MSG_RESERVE_REQ;
         snprintf(pkt.payload, BUFFER_SIZE, "%d", choice);
         send(sock, &pkt, sizeof(Packet), 0);
-        recv(sock, &response, sizeof(Packet), 0);
+        
+        if (recv(sock, &response, sizeof(Packet), 0) <= 0) break;
+        if (response.type == MSG_SERVER_SHUTDOWN) {
+            printf("\n!!! %s !!!\n", response.payload);
+            break;
+        }
 
         printf("\n>>> SERVER: %s <<<\n", response.payload);
         printf("Press Enter to continue...");

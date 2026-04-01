@@ -5,7 +5,7 @@
 #define MAX_CLIENTS 5
 #define BUFFER_SIZE 512
 
-// Structured Message Protocol (Enhancement)
+// Structured Message Protocol
 typedef enum {
     MSG_AUTH_REQ,
     MSG_AUTH_SUCCESS,
@@ -15,7 +15,8 @@ typedef enum {
     MSG_RESERVE_REQ,
     MSG_RESERVE_SUCCESS,
     MSG_RESERVE_FAIL,
-    MSG_DISCONNECT
+    MSG_DISCONNECT,
+    MSG_SERVER_SHUTDOWN // Server initiated shutdown
 } MessageType;
 
 // Standardized packet for all TCP communication
